@@ -1,7 +1,7 @@
 # Scrapping Lower prices
 
 ## Project's Description
-Um site que ajuda os usuários a economizar dinheiro ao encontrar automaticamente as opções mais baratas para produtos em diferentes sites de e-commerce. É um site responsivo e de forma intuitiva.
+Um site que ajuda os usuários a economizar dinheiro ao encontrar automaticamente as opções mais baratas para produtos em diferentes sites de e-commerce.
 
 ## Environment and tools
  - ``Node``
