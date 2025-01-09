@@ -1,9 +1,11 @@
 import './App.css';
+import Login from './components/login';
 
 function App() {
   return (
     <>
-      <p>Hola mundo!</p>
+      <h1>Bem-Vindo(a) à Taqtile</h1>
+      <Login />
     </>
   );
 }
