@@ -41,12 +41,6 @@ const Login: React.FC = () => {
     event.preventDefault();
     validateEmail();
     validateSenha();
-    if (validateEmail() && validateSenha()) {
-      console.log('E-mail e senha válidos:', email, senha);
-    } else {
-      console.log('E-mail:', email);
-      console.log('Senha:', senha);
-    }
   };
 
   return (
@@ -60,12 +54,18 @@ const Login: React.FC = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          {errorEmail && <p className='error-message'>{errorEmail}</p>}
+          {errorEmail && <p className='error-email'>{errorEmail}</p>}
         </div>
         <div className='box-password'>
           <label htmlFor='password'>Senha</label>
-          <input type='password' placeholder='*****' name='password' onChange={(e) => setSenha(e.target.value)} />
-          {errorSenha && <p className='error-message'>{errorSenha}</p>}
+          <input
+            type='password'
+            placeholder='*****'
+            name='password'
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+          />
+          {errorSenha && <p className='error-senha'>{errorSenha}</p>}
         </div>
         <div className='box-submit'>
           <button type='submit'>Entrar</button>
