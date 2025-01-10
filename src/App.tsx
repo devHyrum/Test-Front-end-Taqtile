@@ -1,10 +1,10 @@
 import './App.css';
-import Login from './components/login';
+import Login from './components/Login';
 
 function App() {
   return (
     <>
-      <h1>Bem-Vindo(a) à Taqtile</h1>
+      <h1>Bem-Vindo(a) à Instaq</h1>
       <Login />
     </>
   );
