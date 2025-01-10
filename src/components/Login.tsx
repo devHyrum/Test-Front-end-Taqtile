@@ -12,38 +12,45 @@ const Login: React.FC = () => {
       setErrorEmail('O campo de e-mail é obrigatório');
       return false;
     }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setErrorEmail('Por favor, insira um e-mail válido.');
       return false;
     }
+
     setErrorEmail(null);
     return true;
   };
+
   const validateSenha = (): boolean => {
     if (!senha) {
       setErrorSenha('O campo senha é obrigatorio');
       return false;
     }
+
     if (senha.length < 7) {
       setErrorSenha('A senha deve ser de mínimo 7 caracteres');
       return false;
     }
+
     const senhaRegex = /^(?=.*[0-9])(?=.*[a-zA-Z])/;
     if (!senhaRegex.test(senha)) {
       setErrorSenha('A senha deve ter pelo menos um dígito e uma letra');
       return false;
     }
+
     setErrorSenha(null);
     return true;
   };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const emailValido = validateEmail();
     const senhaValida = validateSenha();
-    if (!emailValido || !senhaValida) {
-      console.log('Formulário inválido, corrigir os erros');
-    } else {
+
+    if (emailValido && senhaValida) {
       console.log('Formulário válido, enviando dados...');
     }
   };
