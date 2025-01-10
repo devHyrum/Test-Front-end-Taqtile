@@ -28,7 +28,9 @@
     background-color: #6d50f2;
     cursor: pointer;
     color: white;
+    width: 100%;
   }
+
   .error-email {
     color: red;
     font-size: 14px;
@@ -36,6 +38,7 @@
     padding: 0;
     text-align: end;
     }
+
     .error-senha{
     color: red;
     font-size: 14px;
