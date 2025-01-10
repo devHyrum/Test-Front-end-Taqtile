@@ -39,8 +39,13 @@ const Login: React.FC = () => {
   };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    validateEmail();
-    validateSenha();
+    const emailValido = validateEmail();
+    const senhaValida = validateSenha();
+    if (!emailValido || !senhaValida) {
+      console.log('Formulário inválido, corrigir os erros');
+    } else {
+      console.log('Formulário válido, enviando dados...');
+    }
   };
 
   return (
@@ -54,7 +59,7 @@ const Login: React.FC = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          {errorEmail && <p className='error-email'>{errorEmail}</p>}
+          {errorEmail && <p className='error-message'>{errorEmail}</p>}
         </div>
         <div className='box-password'>
           <label htmlFor='password'>Senha</label>
@@ -65,7 +70,7 @@ const Login: React.FC = () => {
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
           />
-          {errorSenha && <p className='error-senha'>{errorSenha}</p>}
+          {errorSenha && <p className='error-message'>{errorSenha}</p>}
         </div>
         <div className='box-submit'>
           <button type='submit'>Entrar</button>
