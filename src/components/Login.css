@@ -31,19 +31,12 @@
     width: 100%;
   }
 
-  .error-email {
+  .error-message {
     color: red;
     font-size: 14px;
     margin: 0;
     padding: 0;
     text-align: end;
-    }
+  }
 
-    .error-senha{
-    color: red;
-    font-size: 14px;
-    margin: 0;
-    padding: 0;
-    text-align: end;
-    }
 }

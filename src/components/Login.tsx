@@ -52,15 +52,20 @@ const Login: React.FC = () => {
   return (
     <>
       <form className='container-login' onSubmit={handleSubmit}>
-        <div className='box-email'> 
+        <div className='box-email'>
           <label htmlFor='email'>E-mail</label>
-          <input placeholder='email@exemplo.com' name='email' value={email} onChange={(e) => setEmail(e.target.value)} />
-          {errorEmail && <p className='error-email'>{errorEmail}</p>}
+          <input
+            placeholder='email@exemplo.com'
+            name='email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          {errorEmail && <p className='error-message'>{errorEmail}</p>}
         </div>
-        <div className='box-password'> 
+        <div className='box-password'>
           <label htmlFor='password'>Senha</label>
           <input type='password' placeholder='*****' name='password' onChange={(e) => setSenha(e.target.value)} />
-          {errorSenha && <p className='error-senha'>{errorSenha}</p>}
+          {errorSenha && <p className='error-message'>{errorSenha}</p>}
         </div>
         <div className='box-submit'>
           <button type='submit'>Entrar</button>
