@@ -7,11 +7,11 @@ const Login: React.FC = () => {
       <form className='container-login'>
         <div className='box-email'>
           <label htmlFor='email'>E-mail</label>
-          <input type='text' placeholder='email@exemplo.com' name='uname' required />
+          <input type='text' placeholder='email@exemplo.com' name='email' required />
         </div>
         <div className='box-password'>
           <label htmlFor='password'>Senha</label>
-          <input type='password' placeholder='*****' name='psw' required />
+          <input type='password' placeholder='*****' name='password' required />
         </div>
         <div className='box-submit'>
           <button type='submit'>Entrar</button>
