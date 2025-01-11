@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import './Login.css';
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const senhaRegex = /^(?=.*[0-9])(?=.*[a-zA-Z])/;
+
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [errorEmail, setErrorEmail] = useState<string | null>(null);
@@ -13,7 +16,6 @@ const Login: React.FC = () => {
       return false;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setErrorEmail('Por favor, insira um e-mail válido.');
       return false;
@@ -34,7 +36,6 @@ const Login: React.FC = () => {
       return false;
     }
 
-    const senhaRegex = /^(?=.*[0-9])(?=.*[a-zA-Z])/;
     if (!senhaRegex.test(senha)) {
       setErrorSenha('A senha deve ter pelo menos um dígito e uma letra');
       return false;
