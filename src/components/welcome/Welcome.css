@@ -16,4 +16,26 @@ ul{
       color: #555;
     }
   }
+<<<<<<< HEAD
+=======
+}
+ul{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  li{
+    text-align: start;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    .user-name {
+      font-weight: bold;
+    }
+    .user-email {
+      color: #555;
+    }
+  }
+>>>>>>> f0afdb7 (feature/users-list-ui)
 }
