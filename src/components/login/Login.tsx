@@ -52,7 +52,6 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('tocaste');
     const emailValido = validateEmail();
     const senhaValida = validateSenha();
     if (emailValido && senhaValida) {
@@ -69,6 +68,7 @@ const Login: React.FC = () => {
         const token = response?.data?.login?.token;
 
         if (token) {
+          localStorage.setItem('token', token);
           console.log('Login bem-sucedido! Token:', token);
           navigate('/welcome');
         } else {
@@ -117,7 +117,7 @@ const Login: React.FC = () => {
               'Entrar'
             )}
           </button>
-          {error && <p className='error-message'>Hola a todos, como estan? soy hyrum, sou do brasil, aqui no peru</p>}
+          {error && <p className='error-message'>{error.message}</p>}
         </div>
       </form>
     </>
