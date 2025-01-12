@@ -62,10 +62,12 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const emailVerified = validateEmail();
-    const passwordVerified = validatePassword();
-    if (emailVerified && passwordVerified) {
-        login({
+    console.log('tocaste');
+    const emailValido = validateEmail();
+    const senhaValida = validatePassword();
+    if (emailValido && senhaValida) {
+      try {
+        const response = await login({
           variables: {
             data: {
               email: email,
@@ -74,6 +76,19 @@ const Login: React.FC = () => {
           },
         });
 
+        const token = response?.data?.login?.token;
+
+        if (token) {
+          console.log('Login bem-sucedido! Token:', token);
+          navigate('/welcome');
+        } else {
+          console.error('Token não encontrado na resposta:', response);
+        }
+      } catch (err: any) {
+        err.graphQLErrors.forEach((error: any) => {
+          console.error('Erro GraphQL:', error.message, error.name, error.code);
+        });
+      }
     }
   };
 
@@ -100,7 +115,7 @@ const Login: React.FC = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {passwordError  && <p className='error-message'>{passwordError }</p>}
+          {passwordError  && <p className='error-message'>{passwordError}</p>}
         </div>
         <div className='box-submit'>
           <button type='submit' disabled={loading}>
@@ -112,7 +127,7 @@ const Login: React.FC = () => {
               'Entrar'
             )}
           </button>
-          {error && <p className='error-message'>Hola a todos, como estan? soy hyrum, sou do brasil, aqui no peru</p>}
+          {error && <p className='error-message'>{error.message}</p>}
         </div>
       </form>
     </>

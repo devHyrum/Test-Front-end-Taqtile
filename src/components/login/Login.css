@@ -32,14 +32,14 @@
     color: white;
     width: 100%;
     transition: background-color 0.3 ease;
-    &:hover{
+    &:hover {
       background-color: #603ef5;
     }
-    &:focus{
+    &:focus {
       background-color: #7870f0;
     }
   }
-  button[disabled]{
+  button[disabled] {
     cursor: default;
     background-color: #a693f7;
     transition: background-color 0.3s ease;
