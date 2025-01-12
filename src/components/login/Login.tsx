@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { LOGIN_MUTATION } from '../graphql/mutations';
-import { validateEmail, validatePassword } from '../utils/validators';
+import { LOGIN_MUTATION } from '../../graphql/mutations';
+import { validateEmail, validatePassword } from '../../utils/validators';
 import './Login.css';
 
 const Login: React.FC = () => {
