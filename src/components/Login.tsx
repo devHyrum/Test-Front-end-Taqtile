@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { LOGIN_MUTATION } from '../graphql/mutations';
 import './Login.css';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -9,6 +11,7 @@ const Login: React.FC = () => {
   const [emailError, setEmailError] = useState<string | null>(null);
   const [password, setPassword] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [login, { loading, error }] = useMutation(LOGIN_MUTATION);
 
   const validateEmail = (): boolean => {
     if (!email) {
@@ -45,14 +48,36 @@ const Login: React.FC = () => {
     return true;
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const emailVerified = validateEmail();
     const passwordVerified = validatePassword();
 
     if (emailVerified && passwordVerified) {
-      console.log('Formulário válido, enviando dados...');
+      try {
+        const response = await login({
+          variables: {
+            data: {
+              email: email,
+              password: password,
+            },
+          },
+        });
+
+        const token = response?.data?.login?.token;
+
+        if (token) {
+          localStorage.setItem('token', token);
+          console.log('Login bem-sucedido! Token:', token);
+        } else {
+          console.error('Token não encontrado na resposta:', response);
+        }
+      } catch (err: any) {
+        err.graphQLErrors.forEach((error: any) => {
+          console.error('Erro GraphQL:', error.message, error.name, error.code);
+        });
+      }
     }
   };
 
@@ -81,7 +106,10 @@ const Login: React.FC = () => {
           {passwordError && <p className='error-message'>{passwordError}</p>}
         </div>
         <div className='box-submit'>
-          <button type='submit'>Entrar</button>
+          <button type='submit' disabled={loading}>
+            {loading ? 'Entrando...' : 'Entrar'}
+          </button>
+          {error && <p className='error-message'>{error.message}</p>}
         </div>
       </form>
     </>
