@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { LOGIN_MUTATION } from '../graphql/mutations';
+import { LOGIN_MUTATION } from '../../graphql/mutations';
 import './Login.css';
+import { useNavigate } from 'react-router-dom';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const senhaRegex = /^(?=.*[0-9])(?=.*[a-zA-Z])/;
@@ -12,6 +13,7 @@ const Login: React.FC = () => {
   const [senha, setSenha] = useState<string>('');
   const [errorSenha, setErrorSenha] = useState<string | null>(null);
   const [login, { loading, error }] = useMutation(LOGIN_MUTATION);
+  const navigate = useNavigate();
 
   const validateEmail = (): boolean => {
     if (!email) {
@@ -50,10 +52,9 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    console.log('tocaste');
     const emailValido = validateEmail();
     const senhaValida = validateSenha();
-
     if (emailValido && senhaValida) {
       try {
         const response = await login({
@@ -68,8 +69,8 @@ const Login: React.FC = () => {
         const token = response?.data?.login?.token;
 
         if (token) {
-          localStorage.setItem('token', token);
           console.log('Login bem-sucedido! Token:', token);
+          navigate('/welcome');
         } else {
           console.error('Token não encontrado na resposta:', response);
         }
@@ -83,6 +84,7 @@ const Login: React.FC = () => {
 
   return (
     <>
+      <h1>Bem-Vindo(a) à Instaq</h1>
       <form className='container-login' onSubmit={handleSubmit}>
         <div className='box-email'>
           <label htmlFor='email'>E-mail</label>
@@ -107,7 +109,13 @@ const Login: React.FC = () => {
         </div>
         <div className='box-submit'>
           <button type='submit' disabled={loading}>
-            {loading ? 'Entrando...' : 'Entrar'}
+            {loading ? (
+              <>
+                <div className='custom-loader-button'></div>
+              </>
+            ) : (
+              'Entrar'
+            )}
           </button>
           {error && <p className='error-message'>{error.message}</p>}
         </div>
