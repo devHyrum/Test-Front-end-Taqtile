@@ -54,7 +54,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <form className='container-login' onSubmit={handleSubmit}>
+      <form className='container-login' onSubmit={handleSubmit}>
       <div className='box-email'>
         <label htmlFor='email'>E-mail</label>
         <input
@@ -83,7 +83,6 @@ const Login: React.FC = () => {
         {error && <p className='error-message'>{error.message}</p>}
       </div>
     </form>
-
   );
 };
 export default Login;
