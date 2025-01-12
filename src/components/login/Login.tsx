@@ -112,7 +112,7 @@ const Login: React.FC = () => {
               'Entrar'
             )}
           </button>
-          {error && <p className='error-message'>{error.message}</p>}
+          {error && <p className='error-message'>Hola a todos, como estan? soy hyrum, sou do brasil, aqui no peru</p>}
         </div>
       </form>
     </>

@@ -35,6 +35,9 @@
     &:hover{
       background-color: #603ef5;
     }
+    &:focus{
+      background-color: #7870f0;
+    }
   }
   button[disabled]{
     cursor: default;
