@@ -1,54 +1,87 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import './Welcome.css';
 import { useNavigate } from 'react-router-dom';
 import { GET_USERS } from 'graphql/query';
 
 const Welcome: React.FC = () => {
+  const [users, setUsers] = useState<{ name: string; email: string; id: string }[]>([]);
+  const [offset, setOffset] = useState(0);
+  const limit = 5;
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const checkAuthentication = () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/login');
-      }
-    };
+  const { loading, data, fetchMore } = useQuery(GET_USERS, {
+    variables: {
+      data: {
+        limit,
+        offset,
+      },
+    },
+  });
+
+  const { loading, data, fetchMore } = useQuery(GET_USERS, {
+    variables: {
+      data: {
+        limit,
+        offset,
+      },
+    },
+  });
+
+  const checkAuthentication = () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+  };
 
     checkAuthentication();
   }, [navigate]);
 
-  const { loading, error, data } = useQuery(GET_USERS, {
-    variables: {
-      data: {},
-    },
-  });
+  useEffect(() => {
+    if (data) {
+      setUsers((prevUsers) => [...prevUsers, ...data.users.nodes]);
+    }
+  }, [data]);
 
-  if (loading) {
-    return <div className='custom-loader-page' />;
-  }
-
-  if (error) {
-    return <div>Erro ao carregar os usuários: {error.message}</div>;
-  }
-
-  const users = data?.users?.nodes || [];
+  const loadMoreUsers = () => {
+    if (data?.users.pageInfo.hasNextPage) {
+      fetchMore({
+        variables: {
+          data: {
+            limit,
+            offset: offset + limit,
+          },
+        },
+      });
+      setOffset((prevOffset) => prevOffset + limit);
+    }
+  };
 
   return (
-    <main>
+    <div className='page-welcome'>
       <h1>Lista de Usuários</h1>
-      {users.length === 0 ? (
-        <p>Nenhum usuário encontrado.</p>
+      {loading && !users.length ? (
+        <div className='custom-loader-page'></div>
       ) : (
-        <ul className='user-list'>
-          {users.map((user: { id: string; name: string; email: string }) => (
-            <li key={user.id} className='user-item'>
-              <span className='user-name'>{user.name}</span> - <span className='user-email'>{user.email}</span>
-            </li>
-          ))}
-        </ul>
+        <>
+          <ul>
+            {users.map((user) => (
+              <li key={user.id}>
+                <span className='nome-registrado'>{user.name}</span> -&nbsp;
+                <span className='email-registrado'>{user.email}</span>
+              </li>
+            ))}
+          </ul>
+          {data?.users.pageInfo.hasNextPage && (
+            <button onClick={loadMoreUsers} className='load-more-btn'>
+              Carregar Mais
+            </button>
+          )}
+        </>
       )}
-    </main>
+    </div>
   );
 };
 
