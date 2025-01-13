@@ -11,7 +11,22 @@ const Login: React.FC = () => {
   const [emailError, setEmailError] = useState<string | null>(null);
   const [password, setPassword] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [login, { loading, error }] = useMutation(LOGIN_MUTATION);
+  const [login, { loading, error }] = useMutation(LOGIN_MUTATION, {
+    onCompleted: (data) => {
+      const token = data?.login?.token;
+      if (token) {
+        localStorage.setItem('token', token);
+        console.log('Login bem-sucedido! Com Token obtido!');
+      } else {
+        console.log('Token não encontrado na resposta:', data);
+      }
+    },
+    onError: (err) => {
+      err.graphQLErrors.forEach((error: any) => {
+        console.error('Erro GraphQL:', error.message, error.name, error.code);
+      });
+    },
+  });
 
   const validateEmail = (): boolean => {
     if (!email) {
@@ -55,29 +70,14 @@ const Login: React.FC = () => {
     const passwordVerified = validatePassword();
 
     if (emailVerified && passwordVerified) {
-      try {
-        const response = await login({
-          variables: {
-            data: {
-              email: email,
-              password: password,
-            },
+      login({
+        variables: {
+          data: {
+            email: email,
+            password: password,
           },
-        });
-
-        const token = response?.data?.login?.token;
-
-        if (token) {
-          localStorage.setItem('token', token);
-          console.log('Login bem-sucedido! Token:', token);
-        } else {
-          console.error('Token não encontrado na resposta:', response);
-        }
-      } catch (err: any) {
-        err.graphQLErrors.forEach((error: any) => {
-          console.error('Erro GraphQL:', error.message, error.name, error.code);
-        });
-      }
+        },
+      });
     }
   };
 
