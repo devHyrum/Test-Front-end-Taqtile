@@ -1,9 +1,11 @@
 import './App.css';
+import Login from './components/Login';
 
 function App() {
   return (
     <>
-      <p>Hola mundo!</p>
+      <h1>Bem-Vindo(a) à Instaq</h1>
+      <Login />
     </>
   );
 }
