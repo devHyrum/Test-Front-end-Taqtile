@@ -2,56 +2,56 @@ import React, { useState } from 'react';
 import './Login.css';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const senhaRegex = /^(?=.*[0-9])(?=.*[a-zA-Z])/;
+const passwordRegex = /^(?=.*[0-9])(?=.*[a-zA-Z])/;
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
-  const [errorEmail, setErrorEmail] = useState<string | null>(null);
-  const [senha, setSenha] = useState<string>('');
-  const [errorSenha, setErrorSenha] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [password, setPassword] = useState<string>('');
+  const [passwordError, setPasswordError] = useState<string | null>(null);
 
   const validateEmail = (): boolean => {
     if (!email) {
-      setErrorEmail('O campo de e-mail é obrigatório');
+      setEmailError('O campo de e-mail é obrigatório');
       return false;
     }
 
     if (!emailRegex.test(email)) {
-      setErrorEmail('Por favor, insira um e-mail válido.');
+      setEmailError('Por favor, insira um e-mail válido.');
       return false;
     }
 
-    setErrorEmail(null);
+    setEmailError(null);
     return true;
   };
 
-  const validateSenha = (): boolean => {
-    if (!senha) {
-      setErrorSenha('O campo senha é obrigatorio');
+  const validatePassword = (): boolean => {
+    if (!password) {
+      setPasswordError('O campo senha é obrigatorio');
       return false;
     }
 
-    if (senha.length < 7) {
-      setErrorSenha('A senha deve ser de mínimo 7 caracteres');
+    if (password.length < 7) {
+      setPasswordError('A senha deve ser de mínimo 7 caracteres');
       return false;
     }
 
-    if (!senhaRegex.test(senha)) {
-      setErrorSenha('A senha deve ter pelo menos um dígito e uma letra');
+    if (!passwordRegex.test(password)) {
+      setPasswordError('A senha deve ter pelo menos um dígito e uma letra');
       return false;
     }
 
-    setErrorSenha(null);
+    setPasswordError(null);
     return true;
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const emailValido = validateEmail();
-    const senhaValida = validateSenha();
+    const emailVerified = validateEmail();
+    const passwordVerified = validatePassword();
 
-    if (emailValido && senhaValida) {
+    if (emailVerified && passwordVerified) {
       console.log('Formulário válido, enviando dados...');
     }
   };
@@ -67,7 +67,7 @@ const Login: React.FC = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          {errorEmail && <p className='error-message'>{errorEmail}</p>}
+          {emailError && <p className='error-message'>{emailError}</p>}
         </div>
         <div className='box-password'>
           <label htmlFor='password'>Senha</label>
@@ -75,10 +75,10 @@ const Login: React.FC = () => {
             type='password'
             placeholder='*****'
             name='password'
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
-          {errorSenha && <p className='error-message'>{errorSenha}</p>}
+          {passwordError && <p className='error-message'>{passwordError}</p>}
         </div>
         <div className='box-submit'>
           <button type='submit'>Entrar</button>
