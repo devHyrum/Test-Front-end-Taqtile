@@ -18,7 +18,7 @@ const Welcome: React.FC = () => {
     };
 
   useEffect(() => {
-    checkAuthentication()
+    checkAuthentication();
   }, [navigate]);
 
   const { loading, error, data } = useQuery(GET_USERS, {
