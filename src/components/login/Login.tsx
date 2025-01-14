@@ -52,27 +52,8 @@ const Login: React.FC = () => {
             email: formState.email.value,
             password: formState.password.value,
           },
-<<<<<<< HEAD
         },
       });
-=======
-        });
-
-        const token = response?.data?.login?.token;
-
-        if (token) {
-          localStorage.setItem('token', token);
-          console.log('Login bem-sucedido! Token:', token);
-          navigate('/welcome');
-        } else {
-          console.error('Token não encontrado na resposta:', response);
-        }
-      } catch (err: any) {
-        err.graphQLErrors.forEach((error: any) => {
-          console.error('Erro GraphQL:', error.message, error.name, error.code);
-        });
-      }
->>>>>>> 3b1326b (feature/users-list)
     }
   };
 
