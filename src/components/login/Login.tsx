@@ -61,42 +61,41 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <h1>Bem-Vindo(a) à Instaq</h1>
-      <form className='container-login' onSubmit={handleSubmit}>
-        <div className='box-email'>
-          <label htmlFor='email'>E-mail</label>
-          <input
-            placeholder='email@exemplo.com'
-            name='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          {errorEmail && <p className='error-message'>{errorEmail}</p>}
-        </div>
-        <div className='box-password'>
-          <label htmlFor='password'>Senha</label>
-          <input
-            type='password'
-            placeholder='*****'
-            name='password'
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-          />
-          {errorSenha && <p className='error-message'>{errorSenha}</p>}
-        </div>
-        <div className='box-submit'>
-          <button type='submit' disabled={loading}>
+<form className='container-login' onSubmit={handleSubmit}>
+      <div className='box-email'>
+        <label htmlFor='email'>E-mail</label>
+        <input
+          placeholder='email@exemplo.com'
+          name='email'
+          value={formState.email.value}
+          onChange={(e) => updateField('email', e.target.value)}
+        />
+        {formState.email.error && <p className='error-message'>{formState.email.error}</p>}
+      </div>
+      <div className='box-password'>
+        <label htmlFor='password'>Senha</label>
+        <input
+          type='password'
+          placeholder='*****'
+          name='password'
+          value={formState.password.value}
+          onChange={(e) => updateField('password', e.target.value)}
+        />
+        {formState.password.error && <p className='error-message'>{formState.password.error}</p>}
+      </div>
+      <div className='box-submit'>
+          <button className='default-button' type='submit' disabled={loading}>
             {loading ? (
               <>
-                <div className='custom-loader-button'></div>
+                <div className='custom-loader-page' />
               </>
             ) : (
               'Entrar'
             )}
           </button>
-          {error && <p className='error-message'>Hola a todos, como estan? soy hyrum, sou do brasil, aqui no peru</p>}
+          {error && <p className='error-message'>{error.message}</p>}
         </div>
-      </form>
+    </form>
     </>
   );
 };
