@@ -32,13 +32,16 @@
     color: white;
     width: 100%;
     transition: background-color 0.3 ease;
+
     &:hover{
       background-color: #603ef5;
     }
+
     &:focus{
       background-color: #7870f0;
     }
   }
+  
   button[disabled]{
     cursor: default;
     background-color: #a693f7;
@@ -50,18 +53,5 @@
     font-size: 14px;
     margin: 0;
     text-align: end;
-  }
-}
-.custom-loader-button {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: conic-gradient(#0000 10%, #7870f0);
-  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
-  animation: s3 1s infinite linear;
-}
-@keyframes s3 {
-  to {
-    transform: rotate(1turn);
   }
 }

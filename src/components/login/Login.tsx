@@ -67,10 +67,10 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const emailValido = validateEmail();
-    const senhaValida = validatePassword();
+    const emailVerified = validateEmail();
+    const passwordVerified = validatePassword();
 
-    if (emailValido && senhaValida) {
+    if (emailVerified && passwordVerified) {
       login({
         variables: {
           data: {
