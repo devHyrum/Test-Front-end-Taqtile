@@ -6,20 +6,19 @@ const Welcome: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const checkAuthentication = () => {
     const token = localStorage.getItem('token');
     if (!token) {
       navigate('/login');
-      return;
-    } else {
-      const timeout = setTimeout(() => {
-        setLoading(false);
-      }, 2000);
-
-      return () => clearTimeout(timeout);
     }
+  };
+
+  useEffect(() => {
+    checkAuthentication();
+    const timeout = setTimeout(() => setLoading(false), 2000);
+    return () => clearTimeout(timeout);
   }, [navigate]);
 
-  return <>{loading ? <div className='custom-loader-page'></div> : <div>Welcome</div>}</>;
+  return <>{loading ? <div className='custom-loader-page'></div> : <h3>Welcome</h3>}</>;
 };
 export default Welcome;
