@@ -49,6 +49,18 @@ const Welcome: React.FC = () => {
             </li>
           ))}
         </ul>
+    <main>
+      <h1>Lista de Usuários</h1>
+      {users.length === 0 ? (
+        <p>Nenhum usuário encontrado.</p>
+      ) : (
+        <ul className='user-list'>
+          {users.map((user: { id: string; name: string; email: string }) => (
+            <li key={user.id} className='user-item'>
+              <span className='user-name'>{user.name}</span> - <span className='user-email'>{user.email}</span>
+            </li>
+          ))}
+        </ul>
       )}
     </main>
   );
