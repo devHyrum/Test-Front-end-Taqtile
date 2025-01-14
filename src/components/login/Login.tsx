@@ -108,10 +108,10 @@ const Login: React.FC = () => {
           {passwordError && <p className='error-message'>{passwordError}</p>}
         </div>
         <div className='box-submit'>
-          <button type='submit' disabled={loading}>
+          <button className='default-button' type='submit' disabled={loading}>
             {loading ? (
               <>
-                <div className='custom-loader-page'></div>
+                <div className='custom-loader-page' />
               </>
             ) : (
               'Entrar'
