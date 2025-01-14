@@ -19,15 +19,6 @@ const Welcome: React.FC = () => {
     },
   });
 
-  const { loading, data, fetchMore } = useQuery(GET_USERS, {
-    variables: {
-      data: {
-        limit,
-        offset,
-      },
-    },
-  });
-
   const checkAuthentication = () => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -63,19 +54,19 @@ const Welcome: React.FC = () => {
     <div className='page-welcome'>
       <h1>Lista de Usuários</h1>
       {loading && !users.length ? (
-        <div className='custom-loader-page'></div>
+        <div className='custom-loader-page' />
       ) : (
         <>
           <ul>
             {users.map((user) => (
               <li key={user.id}>
-                <span className='nome-registrado'>{user.name}</span> -&nbsp;
-                <span className='email-registrado'>{user.email}</span>
+                <span className='user-name'>{user.name}</span> -&nbsp;
+                <span className='user-email'>{user.email}</span>
               </li>
             ))}
           </ul>
           {data?.users.pageInfo.hasNextPage && (
-            <button onClick={loadMoreUsers} className='load-more-btn'>
+            <button onClick={loadMoreUsers} className='default-button'>
               Carregar Mais
             </button>
           )}

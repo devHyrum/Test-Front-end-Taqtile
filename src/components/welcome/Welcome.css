@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-content: center;
 }
 
 .user-list {
@@ -22,10 +23,10 @@
   font-weight: bold;
 }
 
-.user-email {
-  color: #555;
-}
-
+    .user-email {
+      color: #555;
+    }
+  }
 }
 .load-more-btn{
   display: flex;
