@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import './Welcome.css';
 import { useNavigate } from 'react-router-dom';
-import { GET_USERS } from '../../graphql/query';
-import loginClient from '../../utils/apolloClient';
+import { GET_USERS } from 'graphql/query';
+import loginClient from 'utils/apolloClient';
 
 const Welcome: React.FC = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const Welcome: React.FC = () => {
   });
 
   if (loading) {
-    return <div className='custom-loader-page'></div>;
+    return <div className='custom-loader-page' />;
   }
 
   if (error) {
