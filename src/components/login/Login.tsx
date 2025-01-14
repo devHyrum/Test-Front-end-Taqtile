@@ -14,15 +14,10 @@ const Login: React.FC = () => {
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [login, { loading, error }] = useMutation(LOGIN_MUTATION, {
     onCompleted: (data) => {
-
       const token = data?.login?.token;
       if (token) {
         localStorage.setItem('token', token);
         navigate('/welcome');
-        console.log('Login bem-sucedido! Com Token obtido!');
-
-      } else {
-        console.log('Token não encontrado na resposta:', data);
       }
     },
 
@@ -39,8 +34,8 @@ const Login: React.FC = () => {
     if (!email) {
       setEmailError('O campo de e-mail é obrigatório');
       return false;
-
     }
+
     if (!emailRegex.test(email)) {
       setEmailError('Por favor, insira um e-mail válido.');
       return false;
@@ -54,18 +49,18 @@ const Login: React.FC = () => {
     if (!password) {
       setPasswordError('O campo senha é obrigatorio');
       return false;
-
     }
+
     if (password.length < 7) {
       setPasswordError('A senha deve ser de mínimo 7 caracteres');
       return false;
-
     }
+
     if (!passwordRegex.test(password)) {
       setPasswordError('A senha deve ter pelo menos um dígito e uma letra');
       return false;
-
     }
+
     setPasswordError(null);
     return true;
   };
@@ -82,27 +77,8 @@ const Login: React.FC = () => {
             email: email,
             password: password,
           },
-<<<<<<< HEAD
         },
       });
-=======
-        });
-
-        const token = response?.data?.login?.token;
-
-        if (token) {
-          localStorage.setItem('token', token);
-          console.log('Login bem-sucedido! Token:', token);
-          navigate('/welcome');
-        } else {
-          console.error('Token não encontrado na resposta:', response);
-        }
-      } catch (err: any) {
-        err.graphQLErrors.forEach((error: any) => {
-          console.error('Erro GraphQL:', error.message, error.name, error.code);
-        });
-      }
->>>>>>> 3b1326b (feature/users-list)
     }
   };
 
