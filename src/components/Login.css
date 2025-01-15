@@ -30,4 +30,11 @@
     color: white;
     width: 100%;
   }
+
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin: 0;
+    text-align: end;
+  }
 }
