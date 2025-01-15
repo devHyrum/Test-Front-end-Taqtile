@@ -159,7 +159,7 @@ const AddUser: React.FC = () => {
               'Criar novo usuario'
             )}
           </button>
-          {error && <p className='error-message'>Por favor, preencha o formulário corretamente</p>}
+          {error && <p className='error-message'>{error.message}</p>}
         </div>
       </form>
 
