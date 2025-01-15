@@ -3,9 +3,7 @@ import { useMutation } from '@apollo/client';
 import { LOGIN_MUTATION } from 'graphql/mutations';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
-
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const passwordRegex = /^(?=.*[0-9])(?=.*[a-zA-Z])/;
+import { validateEmail, validatePassword } from 'utils/validation';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -30,47 +28,13 @@ const Login: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const validateEmail = (): boolean => {
-    if (!email) {
-      setEmailError('O campo de e-mail é obrigatório');
-      return false;
-    }
-
-    if (!emailRegex.test(email)) {
-      setEmailError('Por favor, insira um e-mail válido.');
-      return false;
-    }
-
-    setEmailError(null);
-    return true;
-  };
-
-  const validatePassword = (): boolean => {
-    if (!password) {
-      setPasswordError('O campo senha é obrigatorio');
-      return false;
-    }
-
-    if (password.length < 7) {
-      setPasswordError('A senha deve ser de mínimo 7 caracteres');
-      return false;
-    }
-
-    if (!passwordRegex.test(password)) {
-      setPasswordError('A senha deve ter pelo menos um dígito e uma letra');
-      return false;
-    }
-
-    setPasswordError(null);
-    return true;
-  };
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const emailVerified = validateEmail();
-    const passwordVerified = validatePassword();
 
-    if (emailVerified && passwordVerified) {
+    setEmailError(validateEmail(email));
+    setPasswordError(validatePassword(password));
+
+    if (!emailError && !passwordError) {
       login({
         variables: {
           data: {

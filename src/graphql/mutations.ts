@@ -7,3 +7,16 @@ export const LOGIN_MUTATION = gql`
     }
   }
 `;
+
+export const CREATE_MUTATION = gql`
+  mutation CreateUser($data: UserInput!) {
+    createUser(data: $data) {
+      birthDate
+      email
+      id
+      name
+      phone
+      role
+    }
+  }
+`;

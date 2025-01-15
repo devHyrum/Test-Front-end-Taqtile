@@ -26,3 +26,31 @@ ul {
     }
   }
 }
+
+header{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.button-more-users{
+  display: flex;
+  width: 3rem;
+  height: 3rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: none;
+  background-color: #40b3f5;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3 ease;
+
+  &:hover {
+    background-color: #1ea4f1;
+  }
+
+  &:focus {
+    background-color: #0097ee;
+  }
+}

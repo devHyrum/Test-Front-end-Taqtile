@@ -46,3 +46,10 @@
   background-color: #a693f7;
   transition: background-color 0.3s ease;
 }
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin: 0;
+  text-align: end;
+}
