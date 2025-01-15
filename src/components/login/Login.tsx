@@ -36,6 +36,43 @@ const Login: React.FC = () => {
     },
   });
 
+  const navigate = useNavigate();
+
+  const validateEmail = (): boolean => {
+    if (!email) {
+      setEmailError('O campo de e-mail é obrigatório');
+      return false;
+    }
+
+    if (!emailRegex.test(email)) {
+      setEmailError('Por favor, insira um e-mail válido.');
+      return false;
+    }
+
+    setEmailError(null);
+    return true;
+  };
+
+  const validatePassword = (): boolean => {
+    if (!password) {
+      setPasswordError('O campo senha é obrigatorio');
+      return false;
+    }
+
+    if (password.length < 7) {
+      setPasswordError('A senha deve ser de mínimo 7 caracteres');
+      return false;
+    }
+
+    if (!passwordRegex.test(password)) {
+      setPasswordError('A senha deve ter pelo menos um dígito e uma letra');
+      return false;
+    }
+
+    setPasswordError(null);
+    return true;
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 

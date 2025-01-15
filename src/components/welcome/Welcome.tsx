@@ -30,9 +30,16 @@ const Welcome: React.FC = () => {
     checkAuthentication();
   }, [navigate]);
 
+  const buttonFuction = () => {
+    navigate('/add-user');
+  };
+
   useEffect(() => {
     if (data) {
-      setUsers((prevUsers) => [...prevUsers, ...data.users.nodes]);
+      setUsers((prevUsers) => {
+        const newUsers = data.users.nodes.filter((user) => !prevUsers.some((prevUser) => prevUser.id === user.id));
+        return [...prevUsers, ...newUsers];
+      });
     }
   }, [data]);
 
@@ -62,6 +69,9 @@ const Welcome: React.FC = () => {
           Sair
         </button>
         <h1>Lista de Usuários</h1>
+        <button className='button-more-users' onClick={buttonFuction}>
+          +
+        </button>
       </header>
       {loading && !users.length ? (
         <div className='custom-loader-page' />
