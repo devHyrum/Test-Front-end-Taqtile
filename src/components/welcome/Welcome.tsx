@@ -8,6 +8,7 @@ const Welcome: React.FC = () => {
 
   const checkAuthentication = () => {
     const token = localStorage.getItem('token');
+
     if (!token) {
       navigate('/login');
     }
@@ -15,8 +16,10 @@ const Welcome: React.FC = () => {
 
   useEffect(() => {
     checkAuthentication();
+
     const timeout = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timeout);
+
   }, [navigate]);
 
   return <>{loading ? <div className='custom-loader-page' /> : <h3>Welcome</h3>}</>;

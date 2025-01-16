@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { LOGIN_MUTATION } from '../../graphql/mutations';
+import { LOGIN_MUTATION } from 'graphql/mutations';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
-import { validateEmail, validatePassword } from '../../utils/validators';
-
+import { validateEmail, validatePassword } from 'utils/validators';
 
 const Login: React.FC = () => {
   const [formState, setFormState] = useState({
@@ -23,7 +22,6 @@ const Login: React.FC = () => {
 
   const [login, { loading, error }] = useMutation(LOGIN_MUTATION, {
     onCompleted: (data) => {
-
       const token = data?.login?.token;
       if (token) {
         localStorage.setItem('token', token);
@@ -61,29 +59,30 @@ const Login: React.FC = () => {
 
   return (
     <>
-<form className='container-login' onSubmit={handleSubmit}>
-      <div className='box-email'>
-        <label htmlFor='email'>E-mail</label>
-        <input
-          placeholder='email@exemplo.com'
-          name='email'
-          value={formState.email.value}
-          onChange={(e) => updateField('email', e.target.value)}
-        />
-        {formState.email.error && <p className='error-message'>{formState.email.error}</p>}
-      </div>
-      <div className='box-password'>
-        <label htmlFor='password'>Senha</label>
-        <input
-          type='password'
-          placeholder='*****'
-          name='password'
-          value={formState.password.value}
-          onChange={(e) => updateField('password', e.target.value)}
-        />
-        {formState.password.error && <p className='error-message'>{formState.password.error}</p>}
-      </div>
-      <div className='box-submit'>
+      <h1>Bem-Vindo(a) à Instaq</h1>
+      <form className='container-login' onSubmit={handleSubmit}>
+        <div className='box-email'>
+          <label htmlFor='email'>E-mail</label>
+          <input
+            placeholder='email@exemplo.com'
+            name='email'
+            value={formState.email.value}
+            onChange={(e) => updateField('email', e.target.value)}
+          />
+          {formState.email.error && <p className='error-message'>{formState.email.error}</p>}
+        </div>
+        <div className='box-password'>
+          <label htmlFor='password'>Senha</label>
+          <input
+            type='password'
+            placeholder='*****'
+            name='password'
+            value={formState.password.value}
+            onChange={(e) => updateField('password', e.target.value)}
+          />
+          {formState.password.error && <p className='error-message'>{formState.password.error}</p>}
+        </div>
+        <div className='box-submit'>
           <button className='default-button' type='submit' disabled={loading}>
             {loading ? (
               <>
@@ -95,7 +94,7 @@ const Login: React.FC = () => {
           </button>
           {error && <p className='error-message'>{error.message}</p>}
         </div>
-    </form>
+      </form>
     </>
   );
 };
