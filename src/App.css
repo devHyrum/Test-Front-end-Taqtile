@@ -4,3 +4,53 @@
   padding: 2rem;
   text-align: center;
 }
+
+.custom-loader-page {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: conic-gradient(#0000 10%, #766df4);
+  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
+  animation: rotate-spinner 1s infinite linear;
+}
+
+@keyframes rotate-spinner {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.default-button {
+  display: flex;
+  justify-content: center;
+  border-radius: 2rem;
+  border: none;
+  padding: 0.6em 1.2em;
+  background-color: #7356f7;
+  cursor: pointer;
+  color: white;
+  width: 100%;
+  transition: background-color 0.3 ease;
+
+  &:hover {
+    background-color: #603ef5;
+  }
+
+  &:focus {
+    background-color: #7870f0;
+  }
+}
+
+.default-button [disabled] {
+  cursor: default;
+  background-color: #a693f7;
+  transition: background-color 0.3s ease;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  text-align: end;
+}
