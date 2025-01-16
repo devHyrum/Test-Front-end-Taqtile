@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_MUTATION } from 'graphql/mutations';
-import { useNavigate } from 'react-router-dom';
 import './Login.css';
-import { validateEmail, validatePassword } from 'utils/validation';
+import { useNavigate } from 'react-router-dom';
+import { validateEmail, validatePassword } from 'utils/validators';
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [emailError, setEmailError] = useState<string | null>(null);
-  const [password, setPassword] = useState<string>('');
-  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [formState, setFormState] = useState({
+    email: { value: '', error: null },
+    password: { value: '', error: null },
+  });
+
+  const updateField = (field: string, value: string, error: string | null = null) => {
+    setFormState((prev) => ({
+      ...prev,
+      [field]: { value, error },
+    }));
+  };
+
+  const navigate = useNavigate();
+
   const [login, { loading, error }] = useMutation(LOGIN_MUTATION, {
     onCompleted: (data) => {
       const token = data?.login?.token;
@@ -26,20 +36,21 @@ const Login: React.FC = () => {
     },
   });
 
-  const navigate = useNavigate();
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setEmailError(validateEmail(email));
-    setPasswordError(validatePassword(password));
+    const emailError = validateEmail(formState.email.value);
+    const passwordError = validatePassword(formState.password.value);
+
+    updateField('email', formState.email.value, emailError);
+    updateField('password', formState.password.value, passwordError);
 
     if (!emailError && !passwordError) {
       login({
         variables: {
           data: {
-            email: email,
-            password: password,
+            email: formState.email.value,
+            password: formState.password.value,
           },
         },
       });
@@ -55,10 +66,10 @@ const Login: React.FC = () => {
           <input
             placeholder='email@exemplo.com'
             name='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formState.email.value}
+            onChange={(e) => updateField('email', e.target.value)}
           />
-          {emailError && <p className='error-message'>{emailError}</p>}
+          {formState.email.error && <p className='error-message'>{formState.email.error}</p>}
         </div>
         <div className='box-password'>
           <label htmlFor='password'>Senha</label>
@@ -66,10 +77,10 @@ const Login: React.FC = () => {
             type='password'
             placeholder='*****'
             name='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formState.password.value}
+            onChange={(e) => updateField('password', e.target.value)}
           />
-          {passwordError && <p className='error-message'>{passwordError}</p>}
+          {formState.password.error && <p className='error-message'>{formState.password.error}</p>}
         </div>
         <div className='box-submit'>
           <button className='default-button' type='submit' disabled={loading}>

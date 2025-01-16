@@ -9,22 +9,19 @@ import {
   validatePassword,
   validatePhone,
   validateRole,
-} from 'utils/validation';
+} from 'utils/validators';
 import './AddUser.css';
 
 const AddUser: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [emailError, setEmailError] = useState<string | null>(null);
-  const [password, setPassword] = useState<string>('');
-  const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [name, setName] = useState<string>('');
-  const [nameError, setNameError] = useState<string | null>(null);
-  const [phone, setPhone] = useState<string>('');
-  const [phoneError, setPhoneError] = useState<string | null>(null);
-  const [birthDate, setBirthDate] = useState<string>('');
-  const [birthDateError, setBirthDateError] = useState<string | null>(null);
-  const [role, setRole] = useState<string>('');
-  const [roleError, setRoleError] = useState<string | null>(null);
+  const [formState, setFormState] = useState({
+    email: { value: '', error: null },
+    password: { value: '', error: null },
+    name: { value: '', error: null },
+    phone: { value: '', error: null },
+    birthDate: { value: '', error: null },
+    role: { value: '', error: null },
+  });
+
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
 
   const [create, { loading, error }] = useMutation(CREATE_MUTATION, {
@@ -44,35 +41,51 @@ const AddUser: React.FC = () => {
     navigate('/welcome');
   };
 
-    useEffect(() => {
-    }, [navigate]);
+  const checkAuthentication = () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+  };
+
+  useEffect(() => {
+    checkAuthentication();
+  }, [navigate]);
+
+  const updateField = (field: string, value: string, error: string | null = null) => {
+    setFormState((prev) => ({
+      ...prev,
+      [field]: { value, error },
+    }));
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const isEmailValid = validateEmail(email);
-    const isPasswordValid = validatePassword(password);
-    const isNameValid = validateName(name);
-    const isPhoneValid = validatePhone(phone);
-    const isBirthDateValid = validateBirthDate(birthDate);
-    const isRoleValid = validateRole(role);
-  
-    setEmailError(isEmailValid);
-    setPasswordError(isPasswordValid);
-    setNameError(isNameValid);
-    setPhoneError(isPhoneValid);
-    setBirthDateError(isBirthDateValid);
-    setRoleError(isRoleValid);
+    const emailError = validateEmail(formState.email.value);
+    const passwordError = validatePassword(formState.password.value);
+    const nameError = validateName(formState.name.value);
+    const birthDateError = validateBirthDate(formState.birthDate.value);
+    const phoneError = validatePhone(formState.phone.value);
+    const roleError = validateRole(formState.role.value);
 
-    if (!isEmailValid && !isPasswordValid && !isNameValid && !isPhoneValid && !isBirthDateValid && !isRoleValid) {
+    updateField('email', formState.email.value, emailError);
+    updateField('password', formState.password.value, passwordError);
+    updateField('name', formState.name.value, nameError);
+    updateField('birthDate', formState.birthDate.value, birthDateError);
+    updateField('phone', formState.phone.value, phoneError);
+    updateField('role', formState.role.value, roleError);
+
+    if (!emailError && !passwordError && !nameError && !birthDateError && !phoneError && !roleError) {
       create({
         variables: {
           data: {
-            email: email,
-            name: name,
-            birthDate: birthDate,
-            password: password,
-            phone: phone,
-            role: role,
+            email: formState.email.value,
+            name: formState.name.value,
+            birthDate: formState.birthDate.value,
+            password: formState.password.value,
+            phone: formState.phone.value,
+            role: formState.role.value,
           },
         },
       });
@@ -86,17 +99,16 @@ const AddUser: React.FC = () => {
         </button>
         <h3>Criação de um novo usuario</h3>
       </header>
-
       <form className='container-create-user' onSubmit={handleSubmit}>
         <div className='box-email'>
           <label htmlFor='email'>E-mail</label>
           <input
             placeholder='email@exemplo.com'
             name='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formState.email.value}
+            onChange={(e) => updateField('email', e.target.value)}
           />
-          {emailError && <p className='error-message'>{emailError}</p>}
+          {formState.email.error && <p className='error-message'>{formState.email.error}</p>}
         </div>
         <div className='box-password'>
           <label htmlFor='password'>Senha</label>
@@ -104,10 +116,10 @@ const AddUser: React.FC = () => {
             type='password'
             placeholder='*****'
             name='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formState.password.value}
+            onChange={(e) => updateField('password', e.target.value)}
           />
-          {passwordError && <p className='error-message'>{passwordError}</p>}
+          {formState.password.error && <p className='error-message'>{formState.password.error}</p>}
         </div>
         <div className='box-name'>
           <label htmlFor='name'>Nome</label>
@@ -115,10 +127,10 @@ const AddUser: React.FC = () => {
             type='text'
             placeholder='João Araujo'
             name='name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={formState.name.value}
+            onChange={(e) => updateField('name', e.target.value)}
           />
-          {nameError && <p className='error-message'>{nameError}</p>}
+          {formState.name.error && <p className='error-message'>{formState.name.error}</p>}
         </div>
         <div className='box-phone'>
           <label htmlFor='phone'>Telefone</label>
@@ -128,26 +140,31 @@ const AddUser: React.FC = () => {
             name='phone'
             className='number-phone'
             maxLength={11}
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            value={formState.phone.value}
+            onChange={(e) => updateField('phone', e.target.value)}
           />
-          {phoneError && <p className='error-message'>{phoneError}</p>}
+          {formState.phone.error && <p className='error-message'>{formState.phone.error}</p>}
         </div>
         <div className='box-birthDate'>
           <label htmlFor='phone'>Data de nascimento</label>
-          <input type='date' name='birthDate' value={birthDate} onChange={(e) => setBirthDate(e.target.value)} />
-          {birthDateError && <p className='error-message'>{birthDateError}</p>}
+          <input
+            type='date'
+            name='birthDate'
+            value={formState.birthDate.value}
+            onChange={(e) => updateField('birthDate', e.target.value)}
+          />
+          {formState.birthDate.error && <p className='error-message'>{formState.birthDate.error}</p>}
         </div>
         <div className='box-role'>
           <label htmlFor='phone'>Role</label>
-          <select name='role' value={role} onChange={(e) => setRole(e.target.value)}>
+          <select name='role' value={formState.role.value} onChange={(e) => updateField('role', e.target.value)}>
             <option value='' disabled>
               Selecione uma opção
             </option>
             <option value='admin'>Admin</option>
             <option value='user'>User</option>
           </select>
-          {roleError && <p className='error-message'>{roleError}</p>}
+          {formState.role.error && <p className='error-message'>{formState.role.error}</p>}
         </div>
         <div className='box-submit'>
           <button className='default-button' type='submit' disabled={loading}>
