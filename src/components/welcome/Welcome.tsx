@@ -19,7 +19,6 @@ const Welcome: React.FC = () => {
 
     const timeout = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timeout);
-
   }, [navigate]);
 
   return <>{loading ? <div className='custom-loader-page' /> : <h3>Welcome</h3>}</>;
