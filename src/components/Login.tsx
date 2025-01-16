@@ -1,90 +1,89 @@
 import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { LOGIN_MUTATION } from '../graphql/mutations';
+import { validateEmail, validatePassword } from '../utils/validators';
 import './Login.css';
 
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const passwordRegex = /^(?=.*[0-9])(?=.*[a-zA-Z])/;
-
 const Login: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [emailError, setEmailError] = useState<string | null>(null);
-  const [password, setPassword] = useState<string>('');
-  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [formState, setFormState] = useState({
+    email: { value: '', error: null },
+    password: { value: '', error: null },
+  });
 
-  const validateEmail = (): boolean => {
-    if (!email) {
-      setEmailError('O campo de e-mail é obrigatório');
-      return false;
-    }
-
-    if (!emailRegex.test(email)) {
-      setEmailError('Por favor, insira um e-mail válido.');
-      return false;
-    }
-
-    setEmailError(null);
-    return true;
+  const updateField = (field: string, value: string, error: string | null = null) => {
+    setFormState((prev) => ({
+      ...prev,
+      [field]: { value, error },
+    }));
   };
 
-  const validatePassword = (): boolean => {
-    if (!password) {
-      setPasswordError('O campo senha é obrigatorio');
-      return false;
-    }
+  const [login, { loading, error }] = useMutation(LOGIN_MUTATION, {
+    onCompleted: (data) => {
+      const token = data?.login?.token;
+      if (token) {
+        localStorage.setItem('token', token);
+        return;
+      }
+    },
+    onError: (err) => {
+      err.graphQLErrors.forEach((error: any) => {
+        console.error('Erro GraphQL:', error.message, error.name, error.code);
+      });
+    },
+  });
 
-    if (password.length < 7) {
-      setPasswordError('A senha deve ser de mínimo 7 caracteres');
-      return false;
-    }
-
-    if (!passwordRegex.test(password)) {
-      setPasswordError('A senha deve ter pelo menos um dígito e uma letra');
-      return false;
-    }
-
-    setPasswordError(null);
-    return true;
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const emailVerified = validateEmail();
-    const passwordVerified = validatePassword();
+    const emailError = validateEmail(formState.email.value);
+    const passwordError = validatePassword(formState.password.value);
 
-    if (emailVerified && passwordVerified) {
-      console.log('Formulário válido, enviando dados...');
+    updateField('email', formState.email.value, emailError);
+    updateField('password', formState.password.value, passwordError);
+
+    if (!emailError && !passwordError) {
+      login({
+        variables: {
+          data: {
+            email: formState.email.value,
+            password: formState.password.value,
+          },
+        },
+      });
     }
   };
 
   return (
-    <>
-      <form className='container-login' onSubmit={handleSubmit}>
-        <div className='box-email'>
-          <label htmlFor='email'>E-mail</label>
-          <input
-            placeholder='email@exemplo.com'
-            name='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          {emailError && <p className='error-message'>{emailError}</p>}
-        </div>
-        <div className='box-password'>
-          <label htmlFor='password'>Senha</label>
-          <input
-            type='password'
-            placeholder='*****'
-            name='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {passwordError && <p className='error-message'>{passwordError}</p>}
-        </div>
-        <div className='box-submit'>
-          <button type='submit'>Entrar</button>
-        </div>
-      </form>
-    </>
+    <form className='container-login' onSubmit={handleSubmit}>
+      <div className='box-email'>
+        <label htmlFor='email'>E-mail</label>
+        <input
+          placeholder='email@exemplo.com'
+          name='email'
+          value={formState.email.value}
+          onChange={(e) => updateField('email', e.target.value)}
+        />
+        {formState.email.error && <p className='error-message'>{formState.email.error}</p>}
+      </div>
+      <div className='box-password'>
+        <label htmlFor='password'>Senha</label>
+        <input
+          type='password'
+          placeholder='*****'
+          name='password'
+          value={formState.password.value}
+          onChange={(e) => updateField('password', e.target.value)}
+        />
+        {formState.password.error && <p className='error-message'>{formState.password.error}</p>}
+      </div>
+      <div className='box-submit'>
+        <button type='submit' disabled={loading}>
+          {loading ? 'Entrando...' : 'Entrar'}
+        </button>
+        {error && <p className='error-message'>{error.message}</p>}
+      </div>
+    </form>
+
   );
 };
 export default Login;
