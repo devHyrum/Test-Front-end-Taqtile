@@ -7,11 +7,13 @@ const Welcome: React.FC = () => {
   const buttonFuction = () => {
     navigate('/login');
   };
-
   return (
     <>
       <h1>Site Instaq</h1>
       <p>Home Page</p>
+      <button className='default-button' onClick={buttonFuction}>
+        Entrar
+      </button>
       <button className='default-button' onClick={buttonFuction}>
         Entrar
       </button>
