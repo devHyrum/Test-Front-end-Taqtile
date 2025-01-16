@@ -13,16 +13,17 @@ const Welcome: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const navigate = useNavigate();
 
-  const checkAuthentication = () => {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      navigate('/login');
-    }
-  };
-
   useEffect(() => {
+    const checkAuthentication = () => {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        navigate('/login');
+      }
+    };
+
     checkAuthentication();
+
     const timeout = setTimeout(() => {
       setUsers([
         { id: 1, name: 'João Da Silva', email: 'joaodasilva@gmail.com' },
