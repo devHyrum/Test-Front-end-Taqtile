@@ -1,9 +1,9 @@
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
 
-.container-create-user{
+.container-create-user {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -23,7 +23,7 @@ input[type=number]::-webkit-outer-spin-button {
     box-sizing: border-box;
   }
 
-  select{
+  select {
     border-radius: 2rem;
     height: 2.5rem;
     padding: 0.6em 1.2em;

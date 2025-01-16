@@ -73,7 +73,7 @@
   background-color: #d9363e;
 }
 
-.button-more-users{
+.button-more-users {
   display: flex;
   width: 3rem;
   height: 3rem;
@@ -93,3 +93,4 @@
   &:focus {
     background-color: #0097ee;
   }
+}
