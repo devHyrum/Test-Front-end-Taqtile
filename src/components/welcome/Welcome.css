@@ -7,6 +7,7 @@
 
 .user-list {
   list-style: none;
+  padding: 0;
 }
 
 .user-item {
@@ -26,7 +27,7 @@
   color: #555;
 }
 
-.load-more-btn{
+.load-more-btn {
   display: flex;
   justify-content: center;
   border-radius: 2rem;
@@ -46,4 +47,30 @@
   &:focus {
     background-color: #7870f0;
   }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.logout-button {
+  position: absolute;
+  left: 1rem;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  width: 60px;
+  height: 40px;
+  padding: 8px 12px;
+  border-radius: 2rem;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.logout-button:hover {
+  background-color: #d9363e;
 }

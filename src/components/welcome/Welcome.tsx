@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import './Welcome.css';
 import { useNavigate } from 'react-router-dom';
-import { GET_USERS } from 'graphql/query';
+import { GET_USERS } from '../../graphql/query';
 
 const Welcome: React.FC = () => {
   const [users, setUsers] = useState<{ name: string; email: string; id: string }[]>([]);
@@ -19,13 +19,14 @@ const Welcome: React.FC = () => {
     },
   });
 
-  const checkAuthentication = () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/login');
-      return;
-    }
-  };
+  useEffect(() => {
+    const checkAuthentication = () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+    };
 
     checkAuthentication();
   }, [navigate]);
@@ -50,16 +51,26 @@ const Welcome: React.FC = () => {
     }
   };
 
+  const logout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
   return (
     <div className='page-welcome'>
-      <h1>Lista de Usuários</h1>
+      <header className='header'>
+        <button onClick={logout} className='logout-button'>
+          Sair
+        </button>
+        <h1>Lista de Usuários</h1>
+      </header>
       {loading && !users.length ? (
         <div className='custom-loader-page' />
       ) : (
         <>
-          <ul>
+          <ul className='user-list'>
             {users.map((user) => (
-              <li key={user.id}>
+              <li className='user-item' key={user.id}>
                 <span className='user-name'>{user.name}</span> -&nbsp;
                 <span className='user-email'>{user.email}</span>
               </li>
