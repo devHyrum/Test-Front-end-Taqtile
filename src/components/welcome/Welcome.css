@@ -1,0 +1,20 @@
+.user-list {
+  list-style: none;
+}
+
+.user-item {
+  text-align: start;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.user-name {
+  font-weight: bold;
+}
+
+.user-email {
+  color: #555;
+}
