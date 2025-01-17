@@ -19,14 +19,13 @@ const Welcome: React.FC = () => {
     },
   });
 
-  useEffect(() => {
-    const checkAuthentication = () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/login');
-        return;
-      }
-    };
+  const checkAuthentication = () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+  };
 
     checkAuthentication();
   }, [navigate]);
@@ -67,21 +66,13 @@ const Welcome: React.FC = () => {
       {loading && !users.length ? (
         <div className='custom-loader-page' />
       ) : (
-        <>
-          <ul className='user-list'>
-            {users.map((user) => (
-              <li className='user-item' key={user.id}>
-                <span className='user-name'>{user.name}</span> -&nbsp;
-                <span className='user-email'>{user.email}</span>
-              </li>
-            ))}
-          </ul>
-          {data?.users.pageInfo.hasNextPage && (
-            <button onClick={loadMoreUsers} className='default-button'>
-              Carregar Mais
-            </button>
-          )}
-        </>
+        <ul className='user-list'>
+          {users.map((user: { id: string; name: string; email: string }) => (
+            <li key={user.id} className='user-item'>
+              <span className='user-name'>{user.name}</span> - <span className='user-email'>{user.email}</span>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );

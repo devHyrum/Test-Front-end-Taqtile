@@ -14,9 +14,6 @@ const Welcome: React.FC = () => {
       <button className='default-button' onClick={buttonFuction}>
         Entrar
       </button>
-      <button className='default-button' onClick={buttonFuction}>
-        Entrar
-      </button>
     </>
   );
 };
