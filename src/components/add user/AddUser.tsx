@@ -41,15 +41,15 @@ const AddUser: React.FC = () => {
     navigate('/welcome');
   };
 
-  const checkAuthentication = () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/login');
-      return;
-    }
-  };
-
   useEffect(() => {
+    const checkAuthentication = () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+    };
+
     checkAuthentication();
   }, [navigate]);
 
