@@ -11,6 +11,7 @@ import {
   validateRole,
 } from 'utils/validators';
 import './AddUser.css';
+import { CircularButtonPage, FormButton, InputForm, LabelForm, MessageErrorForm } from 'styles/styles';
 
 const AddUser: React.FC = () => {
   const [formState, setFormState] = useState({
@@ -94,47 +95,45 @@ const AddUser: React.FC = () => {
   return (
     <div>
       <header>
-        <button className='button-more-users' onClick={backButton}>
-          ←
-        </button>
+        <CircularButtonPage onClick={backButton}>←</CircularButtonPage>
         <h3>Criação de um novo usuario</h3>
       </header>
       <form className='container-create-user' onSubmit={handleSubmit}>
         <div className='box-email'>
-          <label htmlFor='email'>E-mail</label>
-          <input
+          <LabelForm htmlFor='email'>E-mail</LabelForm>
+          <InputForm
             placeholder='email@exemplo.com'
             name='email'
             value={formState.email.value}
             onChange={(e) => updateField('email', e.target.value)}
           />
-          {formState.email.error && <p className='error-message'>{formState.email.error}</p>}
+          {formState.email.error && <MessageErrorForm>{formState.email.error}</MessageErrorForm>}
         </div>
         <div className='box-password'>
-          <label htmlFor='password'>Senha</label>
-          <input
+          <LabelForm htmlFor='password'>Senha</LabelForm>
+          <InputForm
             type='password'
             placeholder='*****'
             name='password'
             value={formState.password.value}
             onChange={(e) => updateField('password', e.target.value)}
           />
-          {formState.password.error && <p className='error-message'>{formState.password.error}</p>}
+          {formState.password.error && <MessageErrorForm>{formState.password.error}</MessageErrorForm>}
         </div>
         <div className='box-name'>
-          <label htmlFor='name'>Nome</label>
-          <input
+          <LabelForm htmlFor='name'>Nome</LabelForm>
+          <InputForm
             type='text'
             placeholder='João Araujo'
             name='name'
             value={formState.name.value}
             onChange={(e) => updateField('name', e.target.value)}
           />
-          {formState.name.error && <p className='error-message'>{formState.name.error}</p>}
+          {formState.name.error && <MessageErrorForm>{formState.name.error}</MessageErrorForm>}
         </div>
         <div className='box-phone'>
-          <label htmlFor='phone'>Telefone</label>
-          <input
+          <LabelForm htmlFor='phone'>Telefone</LabelForm>
+          <InputForm
             type='tel'
             placeholder='00 9999-9999'
             name='phone'
@@ -143,20 +142,20 @@ const AddUser: React.FC = () => {
             value={formState.phone.value}
             onChange={(e) => updateField('phone', e.target.value)}
           />
-          {formState.phone.error && <p className='error-message'>{formState.phone.error}</p>}
+          {formState.phone.error && <MessageErrorForm>{formState.phone.error}</MessageErrorForm>}
         </div>
         <div className='box-birthDate'>
-          <label htmlFor='phone'>Data de nascimento</label>
-          <input
+          <LabelForm htmlFor='phone'>Data de nascimento</LabelForm>
+          <InputForm
             type='date'
             name='birthDate'
             value={formState.birthDate.value}
             onChange={(e) => updateField('birthDate', e.target.value)}
           />
-          {formState.birthDate.error && <p className='error-message'>{formState.birthDate.error}</p>}
+          {formState.birthDate.error && <MessageErrorForm>{formState.birthDate.error}</MessageErrorForm>}
         </div>
         <div className='box-role'>
-          <label htmlFor='phone'>Role</label>
+          <LabelForm htmlFor='phone'>Role</LabelForm>
           <select name='role' value={formState.role.value} onChange={(e) => updateField('role', e.target.value)}>
             <option value='' disabled>
               Selecione uma opção
@@ -164,10 +163,10 @@ const AddUser: React.FC = () => {
             <option value='admin'>Admin</option>
             <option value='user'>User</option>
           </select>
-          {formState.role.error && <p className='error-message'>{formState.role.error}</p>}
+          {formState.role.error && <MessageErrorForm>{formState.role.error}</MessageErrorForm>}
         </div>
         <div className='box-submit'>
-          <button className='default-button' type='submit' disabled={loading}>
+          <FormButton type='submit' disabled={loading}>
             {loading ? (
               <>
                 <div className='custom-loader-page' />
@@ -175,8 +174,8 @@ const AddUser: React.FC = () => {
             ) : (
               'Criar novo usuario'
             )}
-          </button>
-          {error && <p className='error-message'>{error.message}</p>}
+          </FormButton>
+          {error && <MessageErrorForm>{error.message}</MessageErrorForm>}
         </div>
       </form>
 

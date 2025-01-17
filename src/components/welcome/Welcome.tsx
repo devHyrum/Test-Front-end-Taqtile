@@ -4,6 +4,7 @@ import './Welcome.css';
 import { useNavigate } from 'react-router-dom';
 import { GET_USERS, GET_USER } from 'graphql/query';
 import Modal from 'components/details/Modal';
+import { CircularButtonModal, CircularButtonPage, FormButton, TitleHeader } from 'styles/styles';
 
 const Welcome: React.FC = () => {
   const [users, setUsers] = useState<{ name: string; email: string; id: string }[]>([]);
@@ -77,10 +78,8 @@ const Welcome: React.FC = () => {
   return (
     <div className='page-welcome'>
       <header>
-        <h1>Lista de Usuários</h1>
-        <button className='button-more-users' onClick={buttonFunction}>
-          +
-        </button>
+        <TitleHeader>Lista de Usuários</TitleHeader>
+        <CircularButtonPage onClick={buttonFunction}>+</CircularButtonPage>
       </header>
       {loading && !users.length ? (
         <div className='custom-loader-page' />
@@ -93,17 +92,11 @@ const Welcome: React.FC = () => {
                   <span className='user-name'>{user.name}</span>&nbsp;-&nbsp;
                   <span className='user-email'>{user.email}</span>
                 </div>
-                <button className='see-details' onClick={() => openModal(user.id)}>
-                  ≡
-                </button>
+                <CircularButtonModal onClick={() => openModal(user.id)}>≡</CircularButtonModal>
               </li>
             ))}
           </ul>
-          {data?.users.pageInfo.hasNextPage && (
-            <button onClick={loadMoreUsers} className='default-button'>
-              Carregar Mais
-            </button>
-          )}
+          {data?.users.pageInfo.hasNextPage && <FormButton onClick={loadMoreUsers}>Carregar Mais</FormButton>}
         </>
       )}
       {isModalOpen && <Modal onClose={closeModal} userId={selectedUserId} userData={userData} loading={userLoading} />}

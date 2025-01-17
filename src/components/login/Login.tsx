@@ -4,6 +4,7 @@ import { LOGIN_MUTATION } from 'graphql/mutations';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import { validateEmail, validatePassword } from 'utils/validators';
+import { FormButton, InputForm, LabelForm, MessageErrorForm, TitleHeader } from 'styles/styles';
 
 const Login: React.FC = () => {
   const [formState, setFormState] = useState({
@@ -59,31 +60,31 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <h1>Bem-Vindo(a) à Instaq</h1>
+      <TitleHeader>Bem-Vindo(a) à Instaq</TitleHeader>
       <form className='container-login' onSubmit={handleSubmit}>
         <div className='box-email'>
-          <label htmlFor='email'>E-mail</label>
-          <input
+          <LabelForm htmlFor='email'>E-mail</LabelForm>
+          <InputForm
             placeholder='email@exemplo.com'
             name='email'
             value={formState.email.value}
             onChange={(e) => updateField('email', e.target.value)}
           />
-          {formState.email.error && <p className='error-message'>{formState.email.error}</p>}
+          {formState.email.error && <MessageErrorForm>{formState.email.error}</MessageErrorForm>}
         </div>
         <div className='box-password'>
-          <label htmlFor='password'>Senha</label>
-          <input
+          <LabelForm htmlFor='password'>Senha</LabelForm>
+          <InputForm
             type='password'
             placeholder='*****'
             name='password'
             value={formState.password.value}
             onChange={(e) => updateField('password', e.target.value)}
           />
-          {formState.password.error && <p className='error-message'>{formState.password.error}</p>}
+          {formState.password.error && <MessageErrorForm>{formState.password.error}</MessageErrorForm>}
         </div>
         <div className='box-submit'>
-          <button className='default-button' type='submit' disabled={loading}>
+          <FormButton type='submit' disabled={loading}>
             {loading ? (
               <>
                 <div className='custom-loader-page' />
@@ -91,7 +92,7 @@ const Login: React.FC = () => {
             ) : (
               'Entrar'
             )}
-          </button>
+          </FormButton>
           {error && <p className='error-message'>{error.message}</p>}
         </div>
       </form>

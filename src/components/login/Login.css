@@ -1,20 +1,5 @@
 .container-login {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-
-  label {
-    display: flex;
-    font-weight: 400;
-  }
-
-  input {
-    border-radius: 2rem;
-    height: 2.5rem;
-    padding: 0.6em 1.2em;
-    border: 1px solid gray;
-    outline: none;
-    width: 100%;
-    box-sizing: border-box;
-  }
+  gap: 0.5rem;
 }

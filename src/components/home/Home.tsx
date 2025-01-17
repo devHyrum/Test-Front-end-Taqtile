@@ -1,6 +1,6 @@
 import React from 'react';
-import './Home.css';
 import { useNavigate } from 'react-router-dom';
+import { FormButton, TitleHeader } from 'styles/styles';
 
 const Welcome: React.FC = () => {
   const navigate = useNavigate();
@@ -9,11 +9,9 @@ const Welcome: React.FC = () => {
   };
   return (
     <>
-      <h1>Site Instaq</h1>
+      <TitleHeader>Site Instaq</TitleHeader>
       <p>Home Page</p>
-      <button className='default-button' onClick={buttonFuction}>
-        Entrar
-      </button>
+      <FormButton onClick={buttonFuction}>Entrar</FormButton>
     </>
   );
 };
