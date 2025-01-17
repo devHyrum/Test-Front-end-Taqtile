@@ -3,7 +3,6 @@ import { useQuery } from '@apollo/client';
 import './Welcome.css';
 import { useNavigate } from 'react-router-dom';
 import { GET_USERS } from 'graphql/query';
-import loginClient from 'utils/apolloClient';
 
 const Welcome: React.FC = () => {
   const navigate = useNavigate();
@@ -11,18 +10,15 @@ const Welcome: React.FC = () => {
   useEffect(() => {
     const checkAuthentication = () => {
       const token = localStorage.getItem('token');
-
       if (!token) {
         navigate('/login');
       }
     };
 
-  useEffect(() => {
     checkAuthentication();
   }, [navigate]);
 
   const { loading, error, data } = useQuery(GET_USERS, {
-    loginClient,
     variables: {
       data: {},
     },
