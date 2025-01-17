@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery } from '@apollo/client';
+import { useQuery, useLazyQuery } from '@apollo/client';
 import './Welcome.css';
 import { useNavigate } from 'react-router-dom';
-import { GET_USERS } from '../../graphql/query';
+import { GET_USERS, GET_USER } from 'graphql/query';
+import Modal from 'components/details/Modal';
 
 const Welcome: React.FC = () => {
   const [users, setUsers] = useState<{ name: string; email: string; id: string }[]>([]);
   const [offset, setOffset] = useState(0);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const limit = 5;
   const navigate = useNavigate();
 
@@ -19,19 +22,21 @@ const Welcome: React.FC = () => {
     },
   });
 
-  const checkAuthentication = () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/login');
-      return;
-    }
-  };
+  const [fetchUserDetails, { data: userData, loading: userLoading }] = useLazyQuery(GET_USER);
 
-  const buttonFuction = () => {
+  const buttonFunction = () => {
     navigate('/add-user');
   };
 
   useEffect(() => {
+    const checkAuthentication = () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+    };
+
     checkAuthentication();
   }, [navigate]);
 
@@ -58,11 +63,22 @@ const Welcome: React.FC = () => {
     }
   };
 
+  const openModal = (userId: string) => {
+    setSelectedUserId(userId);
+    setIsModalOpen(true);
+    fetchUserDetails({ variables: { userId } });
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedUserId(null);
+  };
+
   return (
     <div className='page-welcome'>
       <header>
         <h1>Lista de Usuários</h1>
-        <button className='button-more-users' onClick={buttonFuction}>
+        <button className='button-more-users' onClick={buttonFunction}>
           +
         </button>
       </header>
@@ -73,8 +89,13 @@ const Welcome: React.FC = () => {
           <ul>
             {users.map((user) => (
               <li key={user.id}>
-                <span className='user-name'>{user.name}</span> -&nbsp;
-                <span className='user-email'>{user.email}</span>
+                <div>
+                  <span className='user-name'>{user.name}</span>&nbsp;-&nbsp;
+                  <span className='user-email'>{user.email}</span>
+                </div>
+                <button className='see-details' onClick={() => openModal(user.id)}>
+                  ≡
+                </button>
               </li>
             ))}
           </ul>
@@ -85,6 +106,7 @@ const Welcome: React.FC = () => {
           )}
         </>
       )}
+      {isModalOpen && <Modal onClose={closeModal} userId={selectedUserId} userData={userData} loading={userLoading} />}
     </div>
   );
 };
