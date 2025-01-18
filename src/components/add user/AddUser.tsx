@@ -41,15 +41,16 @@ const AddUser: React.FC = () => {
     navigate('/welcome');
   };
 
-  const checkAuthentication = () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/login');
-      return;
-    }
-  };
-
+  
   useEffect(() => {
+    const checkAuthentication = () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+    };
+    
     checkAuthentication();
   }, [navigate]);
 
@@ -99,7 +100,7 @@ const AddUser: React.FC = () => {
         </button>
         <h3>Criação de um novo usuario</h3>
       </header>
-      <form className='container-create-user' onSubmit={handleSubmit}>
+      <form className='container-form' onSubmit={handleSubmit}>
         <div className='box-email'>
           <label htmlFor='email'>E-mail</label>
           <input
