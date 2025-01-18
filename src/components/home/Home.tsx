@@ -7,7 +7,6 @@ const Welcome: React.FC = () => {
   const buttonFuction = () => {
     navigate('/login');
   };
-
   return (
     <>
       <h1>Site Instaq</h1>
