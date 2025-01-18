@@ -30,9 +30,16 @@ const Welcome: React.FC = () => {
     checkAuthentication();
   }, [navigate]);
 
+  const buttonFuction = () => {
+    navigate('/add-user');
+  };
+
   useEffect(() => {
     if (data) {
-      setUsers((prevUsers) => [...prevUsers, ...data.users.nodes]);
+      setUsers((prevUsers) => {
+        const newUsers = data.users.nodes.filter((user) => !prevUsers.some((prevUser) => prevUser.id === user.id));
+        return [...prevUsers, ...newUsers];
+      });
     }
   }, [data]);
 
@@ -57,11 +64,14 @@ const Welcome: React.FC = () => {
 
   return (
     <div className='page-welcome'>
-      <header className='header'>
+      <header className='header-title'>
         <button onClick={logout} className='logout-button'>
           Sair
         </button>
         <h1>Lista de Usuários</h1>
+        <button className='button-more-users' onClick={buttonFuction}>
+          +
+        </button>
       </header>
       {loading && !users.length ? (
         <div className='custom-loader-page' />

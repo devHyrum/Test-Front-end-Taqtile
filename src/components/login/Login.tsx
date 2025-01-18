@@ -60,7 +60,7 @@ const Login: React.FC = () => {
   return (
     <>
       <h1>Bem-Vindo(a) à Instaq</h1>
-      <form className='container-login' onSubmit={handleSubmit}>
+      <form className='container-form' onSubmit={handleSubmit}>
         <div className='box-email'>
           <label htmlFor='email'>E-mail</label>
           <input
