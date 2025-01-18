@@ -64,7 +64,7 @@ const Welcome: React.FC = () => {
 
   return (
     <div className='page-welcome'>
-      <header className='header'>
+      <header className='header-title'>
         <button onClick={logout} className='logout-button'>
           Sair
         </button>

@@ -3,13 +3,6 @@ input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
 
-header{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-}
-
 .modal-overlay {
   position: fixed;
   top: 0;

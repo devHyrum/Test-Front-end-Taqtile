@@ -84,3 +84,10 @@ select {
   flex-direction: column;
   gap: 0.5rem;
 }
+
+.header-title{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}

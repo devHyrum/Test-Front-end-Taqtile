@@ -94,7 +94,7 @@ const AddUser: React.FC = () => {
   };
   return (
     <div>
-      <header>
+      <header className='header-title'>
         <button className='button-more-users' onClick={backButton}>
           ←
         </button>
